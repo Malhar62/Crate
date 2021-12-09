@@ -41,7 +41,7 @@ export default function MediaContent({ onPress }) {
                                 resizeMode='contain'
                                 style={{ width: vw(40), height: vh(40) }}
                             />
-                            <Text style={{ fontSize: 20, fontFamily: 'font1', marginLeft: 10 }}>
+                            <Text style={{ fontSize: 20, marginLeft: 10 }}>
                                 {item.name}
                             </Text>
                         </TouchableOpacity>

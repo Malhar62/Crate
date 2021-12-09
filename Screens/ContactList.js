@@ -1,5 +1,5 @@
 import { connect } from "react-redux"
-import { View, Button, FlatList, Text, TouchableOpacity, TouchableHighlight, SectionList, Animated, Keyboard, Image, PermissionsAndroid, StyleSheet, } from 'react-native'
+import { View, Button, FlatList, Text, TouchableOpacity,SafeAreaView, TouchableHighlight, SectionList, Animated, Keyboard, Image, PermissionsAndroid, StyleSheet, } from 'react-native'
 import React from 'react';
 import { vh, vw } from "../Component/Scale";
 import { ActionTypes, usericon } from '../Redux/Constants/index'
@@ -65,8 +65,8 @@ function ContactList(props) {
             .filter((item) => item.data.length).slice(0, count)
     }
     return (
-        <View style={{ flex: 1, backgroundColor: '#fff', paddingTop: 20 }}>
-            <Text style={{ fontSize: 18, fontFamily: 'font1', textAlign: 'center' }}>SELECT CONTACTS YOU WANT TO ADD</Text>
+        <SafeAreaView style={{ flex: 1, backgroundColor: '#fff', paddingTop: 20 }}>
+            <Text style={{ fontSize: 18, textAlign: 'center' }}>SELECT CONTACTS YOU WANT TO ADD</Text>
             <Input
                 value={search}
                 onChangeText={data => setSearch(data)}
@@ -128,10 +128,10 @@ function ContactList(props) {
                 <TouchableOpacity onPress={() => addContactToCrate(route.params.id, () => {
                     navigation.goBack()
                 })}>
-                    <Text style={{ fontSize: 20, fontFamily: 'font1', color: '#fff' }}>ADD TO CRATE</Text>
+                    <Text style={{ fontSize: 20,  color: '#fff' }}>ADD TO CRATE</Text>
                 </TouchableOpacity>
             </View> : null}
-        </View>
+        </SafeAreaView>
     )
 }
 //getContactsMatchingString(string)

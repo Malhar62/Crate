@@ -90,6 +90,7 @@ const addToFavorite = (crateID) => {
     }
 }
 const fetchedContacts = (data, callback) => {
+    console.log('yes reached here')
     return (dispatch) => {
         dispatch({
             type: ActionTypes.FETCH_CONTACTS,
@@ -139,6 +140,16 @@ const deleteCrateItem = (crateId, itemId, kind, callback) => {
         callback()
     }
 }
+const editCrate = (data, callback) => {
+    const { crateId, photos, contacts, crateName } = data
+    return (dispatch) => {
+        dispatch({
+            type: ActionTypes.EDIT_CRATE,
+            payload: data
+        })
+        callback()
+    }
+}
 export const CrateAction = {
     changeCrateName,
     changeCrateDescription,
@@ -152,5 +163,6 @@ export const CrateAction = {
     selectContact,
     addContactToCrate,
     generateString,
-    deleteCrateItem
+    deleteCrateItem,
+    editCrate
 }

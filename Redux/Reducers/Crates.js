@@ -118,6 +118,23 @@ export default function crateReducer(state = initialState, action) {
                 ...state,
                 crates: dupli
             }
+        //////////////////
+        case ActionTypes.EDIT_CRATE:
+            var { crateId, crateName, photos, contacts } = action.payload;
+            console.log(crateId,crateName,'<---new changes')
+            var crateIndex = state.crates.findIndex(x => x.crateId == crateId);
+            var newItems = {
+                ...state.crates[crateIndex],
+                crateName: crateName,
+                photos: photos,
+                contacts: contacts
+            }
+            var dupli = [...state.crates];
+            dupli.splice(crateIndex, 1, newItems);
+            return {
+                ...state,
+                crates: dupli
+            }
         default:
             return state
     }

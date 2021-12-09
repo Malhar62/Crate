@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, Button, FlatList, Text, TouchableOpacity, TouchableHighlight, Animated, Keyboard, Image, PermissionsAndroid, Alert, } from 'react-native'
+import { View, SafeAreaView, FlatList, Text, TouchableOpacity, TouchableHighlight, Animated, Keyboard, Image, PermissionsAndroid, Alert, } from 'react-native'
 import { connect } from 'react-redux'
 import CrateExtra from '../Component/CrateExtra'
 import CrateMain from '../Component/CrateMain'
@@ -17,8 +17,8 @@ import {
     MenuProvider, renderers
 } from 'react-native-popup-menu';
 import PopUp from '../Component/PopUp'
-import { Popover, PopoverController } from 'react-native-modal-popover';
-
+//import { Popover, PopoverController } from 'react-native-modal-popover';
+import { Popover, Button, Box, Center, NativeBaseProvider } from "native-base"
 const common = {
     width: vw(100), height: vh(50), backgroundColor: 'gold', justifyContent: 'center', alignItems: 'center'
 }
@@ -83,6 +83,7 @@ function Crate(props) {
                 )}
                 scrollEventThrottle={16}
                 keyExtractor={(item, index) => item + index + Math.random()}
+                contentContainerStyle={{ paddingHorizontal: 10 }}
             />
         )
     }
@@ -145,12 +146,14 @@ function Crate(props) {
                     renderItem={({ item, index }) => (
                         <View>
                             <View style={{ alignItems: 'center', justifyContent: 'center' }}>
-                                <TouchableOpacity onPress={() =>
+                                <TouchableOpacity onPress={() => {
+                                    imageRef.current.close()
                                     navigation.navigate('viewmedia', {
                                         kind: item.kind,
                                         crateId: item.crateId,
                                         itemId: item.itemId
                                     })
+                                }
                                 }>
                                     <Image
                                         resizeMode={item.kind == 'gallery' || item.kind == 'camera' ? 'cover' : 'contain'}
@@ -181,7 +184,7 @@ function Crate(props) {
     }
     const { SlideInMenu, Popover } = renderers
     return (
-        <View style={{ flex: 1, backgroundColor: '#fff', paddingHorizontal: 10 }}>
+        <SafeAreaView style={{ flex: 1, backgroundColor: '#fff', paddingHorizontal: 10 }}>
             <View style={{ flexDirection: 'row', alignItems: 'center', alignSelf: 'center', height: vh(50), marginTop: 20 }}>
 
                 <Input
@@ -208,6 +211,9 @@ function Crate(props) {
                     />
                 </TouchableHighlight>
             </View>
+            
+           
+       
             <FlatList
                 data={crates}
                 renderItem={renderItem}
@@ -225,7 +231,7 @@ function Crate(props) {
                 height={vh(300)}
             />
 
-        </View>
+        </SafeAreaView>
 
     )
 }

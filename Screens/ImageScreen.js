@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { TouchableOpacity, View, Text, FlatList, Image, Dimensions, PermissionsAndroid, TouchableWithoutFeedback, Alert, BackHandler } from 'react-native';
+import { TouchableOpacity, View, Text, FlatList, Image, SafeAreaView,Dimensions, PermissionsAndroid, TouchableWithoutFeedback, Alert, BackHandler } from 'react-native';
 import { connect } from 'react-redux';
 import { useIsFocused } from '@react-navigation/native';
 import { CrateAction } from '../Redux/Actions/CrateAction';
@@ -128,7 +128,7 @@ function ImageScreen(props) {
         )
     }
     return (
-        <View style={{ flex: 1, marginHorizontal: 0 }}>
+        <SafeAreaView style={{ flex: 1, marginHorizontal: 0 }}>
             <AddIcon />
             <FlatList
                 data={photos}
@@ -179,7 +179,7 @@ function ImageScreen(props) {
                     <Text style={{ color: '#fff', fontSize: 18 }}>SAVE</Text>
                 </TouchableOpacity>
             </View> : null}
-        </View>
+        </SafeAreaView>
     )
 }
 const mapStateToProps = (state) => ({

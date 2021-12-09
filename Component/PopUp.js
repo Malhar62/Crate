@@ -13,7 +13,7 @@ import { Popover, Button, Box, Center, NativeBaseProvider } from "native-base"
 export default function PopUp(props) {
     const { item } = props;
     return (
-        <Box alignItems="center">
+        <Box w='100%' h='100%' alignItems="center">
             <Popover
                 trigger={(triggerProps) => {
                     return (
@@ -23,8 +23,8 @@ export default function PopUp(props) {
                     )
                 }}
             >
-                <Popover.Content>
-                    <Popover.Arrow />
+                <Popover.Content w="56">
+                   
                     <Popover.Body >
                         <TouchableOpacity onPress={() => Linking.openURL(`tel:${item.number}`)}>
                             <Text>{item.number}</Text>

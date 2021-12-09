@@ -35,7 +35,6 @@ const Input = ({ label, onChangeText, value, style, lefticon, righticon, leftPre
 const styles = StyleSheet.create({
   container: {
     margin: 50,
-    borderBottomWidth: 1,
     borderBottomColor: '#d3d3d3',
   },
   label: {

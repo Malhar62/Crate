@@ -32,6 +32,7 @@ export const ActionTypes = {
     ADD_PHOTO_TO_CRATE: 'ADD_PHOTO_TO_CRATE',
     SELECT_CONTACT: 'SELECT_CONTACT',
     ADD_CONTACT_TO_CRATE: 'ADD_CONTACT_TO_CRATE',
-    DELETE_CRATE_ITEM: 'DELETE_CRATE_ITEM'
+    DELETE_CRATE_ITEM: 'DELETE_CRATE_ITEM',
+    EDIT_CRATE:'EDIT_CRATE'
 }
 export const galleryicon = 'https://purepng.com/public/uploads/large/purepng.com-photos-iconsymbolsiconsapple-iosiosios-8-iconsios-8-721522596102asedt.png'

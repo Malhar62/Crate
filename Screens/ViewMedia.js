@@ -264,7 +264,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(ViewMedia);
 const styles = StyleSheet.create({
     txt: {
         fontSize: 18,
-        fontFamily: 'font1'
+        
     },
     contactdetail:
     {
