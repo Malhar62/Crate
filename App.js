@@ -5,7 +5,7 @@ import { Provider } from 'react-redux'
 import Home from './Screens/Home';
 import Category from './Screens/Category';
 import { store } from './Redux/Store'
-import { Button } from 'react-native';
+import { Button, Dimensions, View, Text } from 'react-native';
 import Field from './Screens/Field';
 import ShareScreen from './Screens/Share';
 import Editor from './Screens/editor';
@@ -51,13 +51,42 @@ function MainNavigator() {
 }
 
 function App() {
+  const [deviceOrientation, setDeviceOrientation] = React.useState(Dimensions.get('window').width < Dimensions.get('window').height ? 'portrait' : 'landscape')
+
+  React.useEffect(() => {
+    const deviceOrientation = () => {
+      if (Dimensions.get('window').width < Dimensions.get('window').height) {
+        setDeviceOrientation('portrait');
+      } else {
+        setDeviceOrientation('landscape');
+      }
+    };
+    const orientationHandler = Dimensions.addEventListener('change', deviceOrientation);
+    return () => orientationHandler.remove()
+  });
+  // if (deviceOrientation == 'portrait') {
+  //   return (
+  //     <NativeBaseProvider>
+  //       <Provider store={store}>
+  //         <MainNavigator />
+  //       </Provider>
+  //     </NativeBaseProvider>
+  //   );
+  // } else {
+  //   return (
+  //     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'pink' }}>
+  //       <Text>Please Rotate Your Device</Text>
+  //     </View>
+  //   )
+  // }
   return (
-    <NativeBaseProvider>
-      <Provider store={store}>
-        <MainNavigator />
-      </Provider>
-    </NativeBaseProvider>
-  );
+        <NativeBaseProvider>
+          <Provider store={store}>
+            <MainNavigator />
+          </Provider>
+        </NativeBaseProvider>
+      );
 }
 
 export default App;
+//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

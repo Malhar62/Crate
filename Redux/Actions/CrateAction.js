@@ -132,6 +132,7 @@ const addContactToCrate = (id, callback) => {
     }
 }
 const deleteCrateItem = (crateId, itemId, kind, callback) => {
+    console.log(crateId,'---',itemId,'---')
     return (dispatch) => {
         dispatch({
             type: ActionTypes.DELETE_CRATE_ITEM,

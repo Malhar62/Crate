@@ -5,7 +5,7 @@ const initialState = {
     crateName: '',
     crateDescription: '',
     photos: [],
-    contacts:[],
+    contacts: [],
     isFavorite: false,
     crateTime: '',
     crateId: ''
@@ -34,6 +34,13 @@ export default function crateDetailReducer(state = initialState, action) {
                 ...state,
                 photos: dupli
             }
+        case ActionTypes.REMOVE_CONTACT:
+            var dupli = [...state.contacts];
+            dupli.splice(action.payload, 1);
+            return {
+                ...state,
+                contacts: dupli
+            }
         case ActionTypes.REMOVE_PHOTO:
             var dupli = [...state.photos];
             dupli.splice(action.payload, 1);
@@ -41,7 +48,15 @@ export default function crateDetailReducer(state = initialState, action) {
                 ...state,
                 photos: dupli
             }
-                
+
+        case ActionTypes.CURRENT_CRATE:
+            var { crateName, crateId, photos, contacts, isFavorite, crateDescription, crateTime } = action.payload
+
+            return {
+                ...state,
+                crateName, crateId, photos, contacts, isFavorite, crateTime, crateDescription
+            }
+
         default:
             return state;
     }

@@ -6,6 +6,13 @@ export var DesignHeight = 896;
 // export var DesignHeight = 667;
 export var DesignWidth = 414;
 
+const { width: SCREEN_WIDTH } = Dimensions.get('window');
+// It is based on the screen width of your design layouts e.g Height 600 x Width 375
+const scale = SCREEN_WIDTH / 414;
+
+export function normalize(size) {
+    return PixelRatio.roundToNearestPixel(size * scale);
+}
 
 export const vw = (width) => {
     const percent = (width / DesignWidth) * 100;

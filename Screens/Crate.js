@@ -118,7 +118,7 @@ function Crate(props) {
                                         crateId: crateId,
                                         title: item.userName,
                                         kind: 'contact',
-                                        number: item.phoneNumbers[0].number
+                                        number: item.phoneNumbers.length != 0 ? item.phoneNumbers[0].number : ''
                                     }
                                 })
                             }
@@ -148,15 +148,16 @@ function Crate(props) {
                             <View style={{ alignItems: 'center', justifyContent: 'center' }}>
                                 <TouchableOpacity onPress={() => {
                                     imageRef.current.close()
-                                    navigation.navigate('viewmedia', {
-                                        kind: item.kind,
-                                        crateId: item.crateId,
-                                        itemId: item.itemId
-                                    })
+                                    // navigation.navigate('viewmedia', {
+                                    //     kind: item.kind,
+                                    //     crateId: item.crateId,
+                                    //     itemId: item.itemId
+                                    // })
+                                    console.log(item.number)
                                 }
                                 }>
                                     <Image
-                                        resizeMode={item.kind == 'gallery' || item.kind == 'camera' ? 'cover' : 'contain'}
+                                        resizeMode={item.kind == 'image' ? 'cover' : 'contain'}
                                         source={item.path ? { uri: item.path } : usericon}
                                         style={{ width: vw(120), height: vh(150) }}
                                     />
@@ -211,9 +212,9 @@ function Crate(props) {
                     />
                 </TouchableHighlight>
             </View>
-            
-           
-       
+
+
+
             <FlatList
                 data={crates}
                 renderItem={renderItem}
@@ -222,7 +223,7 @@ function Crate(props) {
             <Sheet
                 ref={sheetRef}
                 data={Initial}
-                closing={() => sheetRef.current.close()}
+                closing={() => { }}
                 height={vh(200)}
             />
             <Sheet

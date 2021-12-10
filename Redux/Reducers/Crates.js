@@ -100,12 +100,12 @@ export default function crateReducer(state = initialState, action) {
             var crateId = action.payload.crateId
 
             var crateIndex = state.crates.findIndex(x => x.crateId == crateId);
-            var crateItemIndex = (kind == 'camera' || kind == 'gallery') ?
+            var crateItemIndex = (kind == 'image' || kind == 'video') ?
                 state.crates[crateIndex].photos.findIndex(x => x.itemId == itemId) :
                 ((kind == 'contact') ? state.crates[crateIndex].contacts.findIndex(x => x.itemId == itemId) : null)
 
             var dupli = [...state.crates]
-            if (kind == 'camera' || kind == 'gallery') {
+            if (kind == 'image' || kind == 'video') {
                 dupli[crateIndex].photos.splice(crateItemIndex, 1)
             } else {
                 if (kind == 'contact') {
@@ -121,7 +121,7 @@ export default function crateReducer(state = initialState, action) {
         //////////////////
         case ActionTypes.EDIT_CRATE:
             var { crateId, crateName, photos, contacts } = action.payload;
-            console.log(crateId,crateName,'<---new changes')
+            console.log(crateId, crateName, '<---new changes')
             var crateIndex = state.crates.findIndex(x => x.crateId == crateId);
             var newItems = {
                 ...state.crates[crateIndex],

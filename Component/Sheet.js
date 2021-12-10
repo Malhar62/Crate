@@ -14,18 +14,21 @@ const Sheet = React.forwardRef((props, ref) => {
             closeOnPressMask={true}
             draggableIcon={true}
             dragFromTopOnly={true}
+
             customStyles={{
                 draggableIcon: {
                     color: 'red'
                 },
                 container: {
+                    ...props.style,
                     justifyContent: "center",
                     alignItems: "center",
                     borderTopEndRadius: 10,
-                    borderTopStartRadius: 10
+                    borderTopStartRadius: 10,
                 }
             }}
-
+            onClose={props.closing}
+            onOpen={props.opening}
         >
             <props.data />
             {/* //{props.data} */}

@@ -20,15 +20,19 @@ function CrateDetailScreen(props) {
     const dotRef = React.createRef()
     const isFocused = useIsFocused()
     const isEdit = route.params.isEdit ? true : false
+    const [editname, setEditname] = React.useState(crateData.crateName)
+    const [editphoto, setEditphoto] = React.useState(crateData.photos)
+    const [editcontact, setEditcontact] = React.useState(crateData.contacts)
+
     React.useEffect(() => {
         if (isFocused) {
             sheetRef.current.close()
             dotRef.current.close()
+            setEditname(crateData.crateName)
+            setEditphoto(crateData.photos)
+            setEditcontact(crateData.contacts)
         }
     }, [isFocused])
-    const [editname, setEditname] = React.useState(crateData.crateName)
-    const [editphoto, setEditphoto] = React.useState(crateData.photos)
-    const [editcontact, setEditcontact] = React.useState(crateData.contacts)
     function fetchContactsFromRoot() {
         return new Promise((resolve, reject) => {
             Contacts.getAll()
@@ -57,16 +61,16 @@ function CrateDetailScreen(props) {
                     .catch(error => console.log(error))
             })
     }
-    console.log('=====', crateData.contacts)
     function OpenGallery() {
         ImagePicker.openPicker({
+            type: 'any',
             multiple: true
         }).then(images => {
-            //console.log('response-->', images);
+            console.log('response-->', images);
             let temp = images.map((item) => {
                 let obj = {
                     ...item,
-                    kind: 'gallery'
+                    kind: item.mime.split('/')[0]
                 }
                 return obj;
             })
@@ -88,7 +92,7 @@ function CrateDetailScreen(props) {
                 //console.log(images)
                 let obj = {
                     ...images,
-                    kind: 'camera'
+                    kind: 'image'
                 }
                 addPhoto(obj, () => {
                     sheetRef.current.close()
@@ -142,6 +146,15 @@ function CrateDetailScreen(props) {
         )
     }
     function HeaderIcons() {
+
+        function iSAnyChange() {
+            if (editname != crateData.crateName || editphoto.length != crateData.photos.length || editcontact.length != crateData.contacts.length) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+
         return (
             <View style={[styles.hdr, { width: '100%' }]}>
                 <TouchableWithoutFeedback onPress={() => navigation.goBack()}>
@@ -159,7 +172,9 @@ function CrateDetailScreen(props) {
                     }
                 }}>
                     {isEdit ?
-                        <Text>EDIT</Text>
+                        <Text style={{
+                            fontSize: 18, fontWeight: 'bold', color: '#8640e3'
+                        }}>{iSAnyChange() ? 'EDIT' : ''}</Text>
                         : <Image
                             source={require('../Images/more.png')}
                             resizeMode='contain'
@@ -229,7 +244,7 @@ function CrateDetailScreen(props) {
                         isEdit: true
                     })
                 }}>
-                    <Text>Edit Crate</Text>
+                    <Text style={{ letterSpacing: 0.5 }}>EDIT CRATE</Text>
                 </TouchableOpacity>
             </View>
         )
@@ -334,11 +349,11 @@ function CrateDetailScreen(props) {
                             <View style={{ width: (Dimensions.get('screen').width / 2), height: vh(220), justifyContent: 'center', alignItems: 'center', marginTop: 20 }}>
                                 <View style={{ width: vw(100), height: vh(150) }}>
                                     <Image
-                                        resizeMode={item.kind == 'gallery' || item.kind == 'camera' ? 'cover' : 'contain'}
+                                        resizeMode={item.kind == 'image' ? 'cover' : 'contain'}
                                         source={item.path == 'undefined' || item.path == '' ? usericon : { uri: item.path }}
                                         style={{ width: vw(100), height: vh(150) }}
                                     />
-                                    <Text>{item.title}</Text>
+                                    <Text style={{ textAlign: 'center' }}>{item.title}</Text>
                                     {isEdit ? <TouchableHighlight
                                         style={{ position: 'absolute', top: -5, right: -5 }}
                                         onPress={() => {
@@ -360,6 +375,19 @@ function CrateDetailScreen(props) {
                                             style={{ width: 20, height: 20 }}
                                         />
                                     </TouchableHighlight> : null}
+                                    {item.kind == 'video' ?
+                                        <View style={{
+                                            position: 'absolute', justifyContent: 'center', alignItems: 'center', top: 0,
+                                            left: 0,
+                                            bottom: 0,
+                                            right: 0,
+                                        }}>
+                                            <Image
+                                                source={require('../Images/play.png')}
+                                                style={{ width: 20, height: 20 }}
+                                            />
+                                        </View>
+                                        : null}
                                 </View>
 
                             </View>
@@ -401,14 +429,14 @@ function CrateDetailScreen(props) {
     return (
         <SafeAreaView style={{ flex: 1, paddingTop: 20, backgroundColor: '#f1f1f1', }}>
             <HeaderIcons />
-            <View style={{ width: vw(300), alignSelf: 'center', marginTop: 20, borderBottomWidth: 1 }}>
+            <View style={{ width: vw(300), alignSelf: 'center', marginTop: 20, borderBottomWidth: isEdit ? 0 : 1 }}>
                 {isEdit ?
                     <Input
                         value={editname}
                         label='Enter crate name'
                         onChangeText={(data) => setEditname(data)}
-                        containerStyle={{ borderWidth: 0.2, borderRadius: 5 }}
-                        righttext={editname != '' ? 'ClEAR' : null}
+                        containerStyle={{ borderWidth: 0.5, borderRadius: 5 }}
+                        righttext={editname != '' ? 'CLEAR' : null}
                         rightPress={() => {
                             if (editname != '') {
                                 setEditname('')
@@ -487,13 +515,14 @@ function CrateDetailScreen(props) {
                         />
                     )
                 }}
-                closing={() => sheetRef.current.close()}
+                closing={() => { }}
                 height={200}
             />
             <Sheet
                 ref={dotRef}
                 data={dotInside}
-                height={200}
+                height={100}
+                style={{ borderTopWidth: 3, borderTopColor: '#290c4f' }}
             />
         </SafeAreaView>
     )
