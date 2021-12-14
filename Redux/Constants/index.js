@@ -35,6 +35,8 @@ export const ActionTypes = {
     DELETE_CRATE_ITEM: 'DELETE_CRATE_ITEM',
     EDIT_CRATE: 'EDIT_CRATE',
     CURRENT_CRATE: 'CURRENT_CRATE',
-    REMOVE_CONTACT: 'REMOVE_CONTACT'
+    REMOVE_CONTACT: 'REMOVE_CONTACT',
+    DELETE_CRATE: 'DELETE_CRATE',
+    DELETE_SELECTED_ITEMS:'DELETE_SELECTED_ITEMS'
 }
 export const galleryicon = 'https://purepng.com/public/uploads/large/purepng.com-photos-iconsymbolsiconsapple-iosiosios-8-iconsios-8-721522596102asedt.png'

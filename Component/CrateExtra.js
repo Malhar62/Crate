@@ -26,7 +26,7 @@ export default function CrateExtra({ anime, item, onimagepress }) {
             })
         }}>
             <View>
-                <Text>isFav : {item.isFavorite.toString()}</Text>
+                <Text>isFav : </Text>
             </View>
             <View>
                 <Text>Id :{item.crateId} </Text>

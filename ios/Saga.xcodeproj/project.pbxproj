@@ -8,14 +8,14 @@
 
 /* Begin PBXBuildFile section */
 		00E356F31AD99517003FC87E /* SagaTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* SagaTests.m */; };
-		13741B664F6347C9A4375E20 /* font1.otf in Resources */ = {isa = PBXBuildFile; fileRef = 4C1A65E05B3D4D7E89241843 /* font1.otf */; };
 		13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		255EBE9B7919D94EA1E01674 /* libPods-Saga-SagaTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 49CFDE0316A3214A1A8BC352 /* libPods-Saga-SagaTests.a */; };
 		784264E12918B7B3416A64F5 /* libPods-Saga.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2130AE90153723D6A5CC2CAE /* libPods-Saga.a */; };
-		7F5B42A040B942A2B8A18E4B /* Rayjoe.otf in Resources */ = {isa = PBXBuildFile; fileRef = A989CEF7ACBC476A94FF97AB /* Rayjoe.otf */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
+		F6A374582767666C00BC41E0 /* Rayjoe.otf in Resources */ = {isa = PBXBuildFile; fileRef = A989CEF7ACBC476A94FF97AB /* Rayjoe.otf */; };
+		F6A374DC2767705100BC41E0 /* squid.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 04DFA8A014494981932CE52C /* squid.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -32,6 +32,7 @@
 		00E356EE1AD99517003FC87E /* SagaTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SagaTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00E356F21AD99517003FC87E /* SagaTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SagaTests.m; sourceTree = "<group>"; };
+		04DFA8A014494981932CE52C /* squid.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = squid.ttf; path = ../assets/fonts/squid.ttf; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* Saga.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Saga.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = Saga/AppDelegate.h; sourceTree = "<group>"; };
 		13B07FB01A68108700A75B9A /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = Saga/AppDelegate.m; sourceTree = "<group>"; };
@@ -41,10 +42,10 @@
 		1A1EF985D5F65E20F810BC58 /* Pods-Saga-SagaTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Saga-SagaTests.release.xcconfig"; path = "Target Support Files/Pods-Saga-SagaTests/Pods-Saga-SagaTests.release.xcconfig"; sourceTree = "<group>"; };
 		2130AE90153723D6A5CC2CAE /* libPods-Saga.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Saga.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		49CFDE0316A3214A1A8BC352 /* libPods-Saga-SagaTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Saga-SagaTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		4C1A65E05B3D4D7E89241843 /* font1.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = font1.otf; path = ../assets/fonts/font1.otf; sourceTree = "<group>"; };
+		4C1A65E05B3D4D7E89241843 /* font1.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = font1.otf; path = ../assets/fonts/font1.otf; sourceTree = "<group>"; };
 		6E617C6C5617076F2DF55876 /* Pods-Saga.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Saga.release.xcconfig"; path = "Target Support Files/Pods-Saga/Pods-Saga.release.xcconfig"; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = Saga/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		A989CEF7ACBC476A94FF97AB /* Rayjoe.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = Rayjoe.otf; path = ../assets/fonts/Rayjoe.otf; sourceTree = "<group>"; };
+		A989CEF7ACBC476A94FF97AB /* Rayjoe.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Rayjoe.otf; path = ../assets/fonts/Rayjoe.otf; sourceTree = "<group>"; };
 		BA074CA51865C6EA9263291F /* Pods-Saga-SagaTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Saga-SagaTests.debug.xcconfig"; path = "Target Support Files/Pods-Saga-SagaTests/Pods-Saga-SagaTests.debug.xcconfig"; sourceTree = "<group>"; };
 		DCE8D8440D48FF6439906DBC /* Pods-Saga.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Saga.debug.xcconfig"; path = "Target Support Files/Pods-Saga/Pods-Saga.debug.xcconfig"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
@@ -115,9 +116,9 @@
 			children = (
 				4C1A65E05B3D4D7E89241843 /* font1.otf */,
 				A989CEF7ACBC476A94FF97AB /* Rayjoe.otf */,
+				04DFA8A014494981932CE52C /* squid.ttf */,
 			);
 			name = Resources;
-			path = "";
 			sourceTree = "<group>";
 		};
 		4085F40C2AF71F861408773A /* Pods */ = {
@@ -128,7 +129,6 @@
 				BA074CA51865C6EA9263291F /* Pods-Saga-SagaTests.debug.xcconfig */,
 				1A1EF985D5F65E20F810BC58 /* Pods-Saga-SagaTests.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -258,10 +258,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F6A374DC2767705100BC41E0 /* squid.ttf in Resources */,
+				F6A374582767666C00BC41E0 /* Rayjoe.otf in Resources */,
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
-				13741B664F6347C9A4375E20 /* font1.otf in Resources */,
-				7F5B42A040B942A2B8A18E4B /* Rayjoe.otf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

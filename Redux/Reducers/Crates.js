@@ -135,6 +135,31 @@ export default function crateReducer(state = initialState, action) {
                 ...state,
                 crates: dupli
             }
+        //////////////////////
+        case ActionTypes.DELETE_CRATE:
+            var crateId = action.payload;
+            var dupli = [...state.crates];
+            var crateInd = state.crates.findIndex(x => x.crateId == crateId);
+            dupli.splice(crateInd, 1);
+            return {
+                ...state,
+                crates: dupli
+            }
+        case ActionTypes.DELETE_SELECTED_ITEMS:
+            console.log('here finall')
+            var { crateId, photos, contacts } = action.payload
+            var dupli = [...state.crates];
+            var crateInd = state.crates.findIndex(x => x.crateId == crateId);
+            var exchange = {
+                ...dupli[crateInd],
+                photos: photos.filter(x => !x.isSelected ),
+                contacts: contacts.filter(x => !x.isSelected ),
+            }
+            dupli.splice(crateInd, 1, exchange)
+            return {
+                ...state,
+                crates: dupli
+            }
         default:
             return state
     }

@@ -1,4 +1,6 @@
 import { useCallback } from 'react'
+import { Alert } from 'react-native'
+import getApiCall from '../../services/webservice'
 import { ActionTypes } from '../Constants'
 
 const changeCrateName = (name) => {
@@ -117,7 +119,8 @@ const addContactToCrate = (id, callback) => {
                 if (sub.isSelected) {
                     var obj = {
                         ...sub,
-                        itemId: generateString(6)
+                        itemId: generateString(6),
+                        isSelected: false
                     }
                     allSelectedContacts.push(obj)
                 }
@@ -131,8 +134,22 @@ const addContactToCrate = (id, callback) => {
         callback()
     }
 }
+const getCall = (end) => {
+    return (dispatch) => {
+        getApiCall(end, (data) => {
+            if (data.code == 200) {
+                dispatch({
+                    type: 'GETTING',
+                    payload: data.data
+                })
+            }
+        }, (error) => {
+            Alert.alert(error)
+        })
+    }
+}
 const deleteCrateItem = (crateId, itemId, kind, callback) => {
-    console.log(crateId,'---',itemId,'---')
+    console.log(crateId, '---', itemId, '---')
     return (dispatch) => {
         dispatch({
             type: ActionTypes.DELETE_CRATE_ITEM,
@@ -151,10 +168,29 @@ const editCrate = (data, callback) => {
         callback()
     }
 }
+const deleteCrate = (id, callback) => {
+    return (dispatch) => {
+        dispatch({
+            type: ActionTypes.DELETE_CRATE,
+            payload: id
+        })
+        callback()
+    }
+}
+const deleteSelectedItems = (data, callback) => {
+    return (dispatch) => {
+        dispatch({
+            type: ActionTypes.DELETE_SELECTED_ITEMS,
+            payload: data
+        })
+        callback()
+    }
+}
 export const CrateAction = {
     changeCrateName,
     changeCrateDescription,
     addCrate,
+    deleteCrate,
     emptyName,
     addPhoto,
     removePhoto,
@@ -165,5 +201,7 @@ export const CrateAction = {
     addContactToCrate,
     generateString,
     deleteCrateItem,
-    editCrate
+    editCrate,
+    deleteSelectedItems,
+    getCall
 }

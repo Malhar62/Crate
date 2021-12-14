@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from "react-redux"
-import { StatusBar, Animated, SafeAreaView, View, Text, Image, Dimensions, StyleSheet, TouchableWithoutFeedback, Linking, TouchableOpacity, Easing, Alert } from 'react-native'
+import { StatusBar, Animated, SafeAreaView, View, Text, Image, Dimensions, StyleSheet, TouchableWithoutFeedback, Linking, TouchableOpacity, Easing, Alert, Platform } from 'react-native'
 import { vh, vw } from "../Component/Scale";
 import { usericon } from '../Redux/Constants'
 import ImageViewer from 'react-native-image-zoom-viewer';
@@ -310,7 +310,7 @@ function ViewMedia(props) {
             />
 
 
-            <View style={{ width: '100%', height: vh(70), position: 'absolute' }}>
+            <View style={{ width: '100%', height: vh(70), position: 'absolute', top: Platform.OS == 'ios' ? deviceOrientation == 'portrait' ? 30 : 0 : 0 }}>
                 <MenuProvider>
                     <Dot />
                 </MenuProvider>

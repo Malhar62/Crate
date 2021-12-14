@@ -53,8 +53,8 @@
 	<false/>
 	<key>UIAppFonts</key>
 	<array>
-		<string>font1.otf</string>
 		<string>Rayjoe.otf</string>
+		<string>squid.ttf</string>
 	</array>
 	<key>NSContactsUsageDescription</key>
 	<string>wants access to contacts</string>

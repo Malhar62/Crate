@@ -13,13 +13,14 @@ import { usericon, backicon } from '../Redux/Constants'
 import Input from "../Component/Input";
 
 function CrateDetailScreen(props) {
-    const { route, navigation, crates, addToFavorite, addPhoto, fetchContacts, editCrate } = props
+    const { route, navigation, crates, addToFavorite, addPhoto, fetchContacts, editCrate, deleteCrate, deleteSelectedItems, emptyCrateData } = props
     const Similar = crates.filter(item => item.crateId === route.params.ID)
-    const crateData = Similar[0]
+    const crateData = Similar.length != 0 ? Similar[0] : emptyCrateData
     const sheetRef = React.createRef()
     const dotRef = React.createRef()
     const isFocused = useIsFocused()
-    const isEdit = route.params.isEdit ? true : false
+    const isEdit = route.params.isEdit ? route.params.isEdit : false;
+    const isDeleteItems = route.params.isDeleteItems ? true : false;
     const [editname, setEditname] = React.useState(crateData.crateName)
     const [editphoto, setEditphoto] = React.useState(crateData.photos)
     const [editcontact, setEditcontact] = React.useState(crateData.contacts)
@@ -70,7 +71,8 @@ function CrateDetailScreen(props) {
             let temp = images.map((item) => {
                 let obj = {
                     ...item,
-                    kind: item.mime.split('/')[0]
+                    kind: item.mime.split('/')[0],
+                    isSelected: false
                 }
                 return obj;
             })
@@ -92,7 +94,8 @@ function CrateDetailScreen(props) {
                 //console.log(images)
                 let obj = {
                     ...images,
-                    kind: 'image'
+                    kind: 'image',
+                    isSelected: false
                 }
                 addPhoto(obj, () => {
                     sheetRef.current.close()
@@ -130,14 +133,27 @@ function CrateDetailScreen(props) {
             navigation.navigate('crate')
         })
     }
+    function deleteSelected() {
+        deleteSelectedItems({ photos: editphoto, contacts: editcontact, crateId: crateData.crateId }, () => {
+            navigation.navigate('crate')
+        })
+    }
     function showConfirm() {
         Alert.alert(
             'Confirm',
-            'Are you sure to edit changes?',
+            `Are you sure to ${isDeleteItems ? 'Delete Selceted Items' : isEdit ? 'edit changes' : ''}?`,
             [
                 {
                     text: 'YES',
-                    onPress: () => editChanges()
+                    onPress: () => {
+                        if (isEdit) {
+                            editChanges()
+                        } else {
+                            if (isDeleteItems) {
+                                deleteSelected()
+                            }
+                        }
+                    }
                 }, {
                     text: 'CANCEL',
                     style: 'cancel'
@@ -145,18 +161,45 @@ function CrateDetailScreen(props) {
             ]
         )
     }
+    console.log('pot--', editphoto)
     function HeaderIcons() {
 
         function iSAnyChange() {
-            if (editname != crateData.crateName || editphoto.length != crateData.photos.length || editcontact.length != crateData.contacts.length) {
-                return true;
+
+            if (isEdit) {
+                if (editname != crateData.crateName || editphoto.length != crateData.photos.length || editcontact.length != crateData.contacts.length) {
+                    return true;
+                } else {
+                    return false;
+                }
             } else {
-                return false;
+                if (isDeleteItems) {
+                    console.log('here===')
+                    var count = 0;
+                    editphoto.forEach(item => {
+                        if (item.isSelected) {
+                            count++;
+                        }
+                    })
+                    editcontact.forEach(item => {
+                        if (item.isSelected) {
+                            count++;
+                        }
+                    })
+                    if (count == 0) {
+                        return false;
+                    } else {
+                        return true;
+                    }
+                    //return isAny;
+                } else {
+                    return false;
+                }
             }
         }
-
+        console.log('-->', iSAnyChange())
         return (
-            <View style={[styles.hdr, { width: '100%' }]}>
+            <View style={[styles.hdr, { width: '100%', justifyContent: 'space-between' }]}>
                 <TouchableWithoutFeedback onPress={() => navigation.goBack()}>
                     <Image
                         resizeMode='contain'
@@ -165,16 +208,16 @@ function CrateDetailScreen(props) {
                     />
                 </TouchableWithoutFeedback>
                 <TouchableWithoutFeedback onPress={() => {
-                    if (isEdit) {
+                    if (isEdit || isDeleteItems) {
                         showConfirm()
                     } else {
                         dotRef.current.open()
                     }
                 }}>
-                    {isEdit ?
+                    {(isEdit || isDeleteItems) ?
                         <Text style={{
                             fontSize: 18, fontWeight: 'bold', color: '#8640e3'
-                        }}>{iSAnyChange() ? 'EDIT' : ''}</Text>
+                        }}>{iSAnyChange() ? (isEdit ? 'EDIT' : isDeleteItems ? 'DELETE' : '') : ''}</Text>
                         : <Image
                             source={require('../Images/more.png')}
                             resizeMode='contain'
@@ -236,15 +279,71 @@ function CrateDetailScreen(props) {
     function dotInside() {
         return (
             <View>
-                <TouchableOpacity onPress={() => {
-                    dotRef.current.close();
-                    sheetRef.current.close();
-                    navigation.navigate('cratedetail', {
-                        ID: crateData.crateId,
-                        isEdit: true
-                    })
-                }}>
-                    <Text style={{ letterSpacing: 0.5 }}>EDIT CRATE</Text>
+                <TouchableOpacity
+                    style={[styles.hdr, { marginTop: 5 }]}
+                    onPress={() => {
+                        dotRef.current.close();
+                        sheetRef.current.close();
+                        navigation.navigate('cratedetail', {
+                            ID: crateData.crateId,
+                            isEdit: true
+                        })
+                    }}>
+                    <Image
+                        source={{ uri: 'https://iconarchive.com/download/i94273/bokehlicia/captiva/accessories-text-editor.ico' }}
+                        style={styles.icon}
+                    />
+                    <Text style={styles.sheettxt}>Edit Crate</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                    style={[styles.hdr, { marginTop: 5 }]}
+                    onPress={() => {
+                        addToFavorite(crateData.crateId); dotRef.current.close(); alert(crateData.isFavorite ? 'removed from favorite' : 'added to favorite')
+                    }}>
+                    <Image
+                        source={crateData.isFavorite ? require('../Images/star-selected.png') : require('../Images/star-notselected.png')}
+                        style={styles.icon}
+                    />
+                    <Text style={styles.sheettxt}>{crateData.isFavorite ? 'FAVORITE' : 'ADD TO FAVORITE'}</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                    style={[styles.hdr, { marginTop: 5 }]}
+                    onPress={() => {
+                        dotRef.current.close();
+                        Alert.alert(
+                            'Are you sure?',
+                            'want to delete crate or crate items',
+                            [
+                                {
+                                    text: 'DELETE CRATE',
+                                    onPress: () => {
+                                        deleteCrate(crateData.crateId, () => {
+                                            navigation.goBack()
+                                        })
+                                    }
+                                },
+                                {
+                                    text: 'DELETE ITEMS',
+                                    onPress: () => {
+                                        navigation.navigate('cratedetail', {
+                                            ID: crateData.crateId,
+                                            isDeleteItems: true,
+                                            isEdit: false
+                                        })
+                                    }
+                                },
+                                {
+                                    text: 'CANCEL',
+                                    style: 'cancel'
+                                }
+                            ]
+                        )
+                    }}>
+                    <Image
+                        source={{ uri: 'https://atlas-content-cdn.pixelsquid.com/stock-images/green-trash-bin-wheeled-QJo1Nq0-600.jpg' }}
+                        style={styles.icon}
+                    />
+                    <Text style={styles.sheettxt}>Delete This Crate</Text>
                 </TouchableOpacity>
             </View>
         )
@@ -273,13 +372,14 @@ function CrateDetailScreen(props) {
             case 'photo':
                 type = 'photo'
                 array =
-                    isEdit ?
+                    (isEdit || isDeleteItems) ?
                         editphoto.map(item => {
                             let obj = {
                                 title: "",
                                 path: item.path,
                                 kind: item.kind,
-                                itemId: item.itemId
+                                itemId: item.itemId,
+                                isSelected: item.isSelected
                             }
                             return obj
                         })
@@ -289,7 +389,8 @@ function CrateDetailScreen(props) {
                                 title: "",
                                 path: item.path,
                                 kind: item.kind,
-                                itemId: item.itemId
+                                itemId: item.itemId,
+                                isSelected: item.isSelected
                             }
                             return obj
                         })
@@ -297,13 +398,14 @@ function CrateDetailScreen(props) {
             case 'contact':
                 type = 'contact'
                 array =
-                    isEdit ?
+                    (isEdit || isDeleteItems) ?
                         editcontact.map(item => {
                             let obj = {
                                 title: item.userName,
                                 path: item.photoUrl,
                                 kind: 'contact',
-                                itemId: item.itemId
+                                itemId: item.itemId,
+                                isSelected: item.isSelected
                             }
                             return obj
                         })
@@ -313,7 +415,8 @@ function CrateDetailScreen(props) {
                                 title: item.userName,
                                 path: item.photoUrl,
                                 kind: 'contact',
-                                itemId: item.itemId
+                                itemId: item.itemId,
+                                isSelected: item.isSelected
                             }
                             return obj
                         })
@@ -337,12 +440,26 @@ function CrateDetailScreen(props) {
                         <TouchableOpacity
                             key={index}
                             onPress={() => {
-                                if (!isEdit) {
+                                if (!isEdit && !isDeleteItems) {
                                     navigation.navigate('viewmedia', {
                                         kind: item.kind,
                                         crateId: crateData.crateId,
                                         itemId: item.itemId
                                     })
+                                } else {
+                                    if (isDeleteItems) {
+                                        if (type == 'photo') {
+                                            var tempPhoto = [...editphoto];
+                                            tempPhoto.splice(index, 1, { ...tempPhoto[index], isSelected: !tempPhoto[index].isSelected })
+                                            setEditphoto(tempPhoto)
+                                        } else {
+                                            if (type == 'contact') {
+                                                var tempContact = [...editcontact];
+                                                tempContact.splice(index, 1, { ...tempContact[index], isSelected: !tempContact[index].isSelected })
+                                                setEditcontact(tempContact)
+                                            }
+                                        }
+                                    }
                                 }
                             }}
                         >
@@ -351,10 +468,19 @@ function CrateDetailScreen(props) {
                                     <Image
                                         resizeMode={item.kind == 'image' ? 'cover' : 'contain'}
                                         source={item.path == 'undefined' || item.path == '' ? usericon : { uri: item.path }}
-                                        style={{ width: vw(100), height: vh(150) }}
+                                        style={{ width: vw(100), height: vh(150), borderRadius: 7 }}
                                     />
                                     <Text style={{ textAlign: 'center' }}>{item.title}</Text>
-                                    {isEdit ? <TouchableHighlight
+                                    {(isDeleteItems && item.isSelected) ?
+                                        <View style={{ position: 'absolute', top: -5, left: -5, }}>
+                                            <Image
+                                                source={{ uri: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRoYk7hIxvZrk2S5uI5j2gP9XJsYPgYzt7tzQ&usqp=CAU' }}
+                                                style={[styles.icon, { borderRadius: 15 }]}
+                                            />
+                                        </View>
+                                        : null
+                                    }
+                                    {(isEdit) ? <TouchableHighlight
                                         style={{ position: 'absolute', top: -5, right: -5 }}
                                         onPress={() => {
                                             if (type == 'photo') {
@@ -492,7 +618,7 @@ function CrateDetailScreen(props) {
                     </View>
                 }
             /> */}
-            {!isEdit ? <View
+            {!isEdit && !isDeleteItems ? <View
                 elevation={5}
                 style={{
                     position: 'absolute', bottom: vh(20), alignSelf: 'center'
@@ -521,7 +647,7 @@ function CrateDetailScreen(props) {
             <Sheet
                 ref={dotRef}
                 data={dotInside}
-                height={100}
+                height={vh(170)}
                 style={{ borderTopWidth: 3, borderTopColor: '#290c4f' }}
             />
         </SafeAreaView>
@@ -529,7 +655,8 @@ function CrateDetailScreen(props) {
 }
 const mapStateToProps = (state) => ({
     crates: state.crateReducer.crates,
-    allcontacts: state.crateReducer.allcontacts
+    allcontacts: state.crateReducer.allcontacts,
+    emptyCrateData: state.crateDetailReducer
 })
 const mapDispatchToProps = (dispatch) => ({
     addToFavorite: (id) => {
@@ -543,12 +670,21 @@ const mapDispatchToProps = (dispatch) => ({
     },
     editCrate: (data, callback) => {
         dispatch(CrateAction.editCrate(data, callback))
+    },
+    deleteCrate: (id, callback) => {
+        dispatch(CrateAction.deleteCrate(id, callback))
+    },
+    deleteSelectedItems: (data, callback) => {
+        dispatch(CrateAction.deleteSelectedItems(data, callback))
     }
 
 })
 export default connect(mapStateToProps, mapDispatchToProps)(CrateDetailScreen)
 
 const styles = StyleSheet.create({
+    sheettxt: {
+        fontSize: 18, letterSpacing: 0.5, marginLeft: 5
+    },
     text: {
         fontSize: 30, textAlign: 'center'
     },
@@ -559,10 +695,10 @@ const styles = StyleSheet.create({
         flexDirection: 'row', alignItems: 'center', borderBottomWidth: 1, borderBottomColor: '#f1f1f1', paddingVertical: 10, paddingLeft: 10
     },
     icon: {
-        width: vw(25), height: vh(25)
+        width: vw(30), height: vh(30)
     },
     hdr: {
-        flexDirection: 'row', justifyContent: 'space-between', paddingHorizontal: 10, alignItems: 'center',
+        flexDirection: 'row', paddingHorizontal: 10, alignItems: 'center',
     }
 })
 /**

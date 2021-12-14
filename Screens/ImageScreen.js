@@ -116,7 +116,7 @@ function ImageScreen(props) {
     }
     function AddIcon() {
         return (
-            <View style={{ backgroundColor: '#2e39b3', position: 'absolute', right: 0, top: 10, borderRadius: 5, marginHorizontal: 5 }}>
+            <View style={{ backgroundColor: '#2e39b3', position: 'absolute', right: 0, top: 30, borderRadius: 5, marginHorizontal: 5 }}>
                 <TouchableOpacity onPress={() => {
                     if (route.params.tag == 'gallery') {
                         OpenGallery()
@@ -136,7 +136,7 @@ function ImageScreen(props) {
             <View style={{ width: deviceOrientation == 'portrait' ? Dimensions.get('screen').width / 3 : vw(270), justifyContent: 'center', alignItems: 'center', marginTop: 20 }}>
                 <Image
                     source={{ uri: item.path }}
-                    style={{ width: deviceOrientation == 'portrait' ? vw(120) : vw(250), height: deviceOrientation == 'portrait' ? vh(200) : vh(250) }}
+                    style={{ borderRadius:5,width: deviceOrientation == 'portrait' ? vw(120) : vw(250), height: deviceOrientation == 'portrait' ? vh(200) : vh(250) }}
                 />
                 <View style={{ overflow: 'visible', position: 'absolute', right: -1, top: -1, width: 20, height: 20, borderRadius: 10 }}>
                     <TouchableWithoutFeedback

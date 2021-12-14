@@ -19,6 +19,11 @@ import {
 import PopUp from '../Component/PopUp'
 //import { Popover, PopoverController } from 'react-native-modal-popover';
 import { Popover, Button, Box, Center, NativeBaseProvider } from "native-base"
+import VideoPlayer from 'react-native-video-controls';
+import SuccessSheet from '../Component/successSheet'
+
+// in the component's render() function
+
 const common = {
     width: vw(100), height: vh(50), backgroundColor: 'gold', justifyContent: 'center', alignItems: 'center'
 }
@@ -37,6 +42,8 @@ function Crate(props) {
     const [list, setList] = React.useState([])
     const [open, setOpen] = React.useState(false)
     const isFocused = useIsFocused()
+    const successRef = React.useRef();
+    const successAnime = new Animated.Value(0);
     React.useEffect(() => {
         if (isFocused) {
             emptyName()
@@ -54,6 +61,7 @@ function Crate(props) {
                                 emptyName()
                                 Keyboard.dismiss()
                                 sheetRef.current.close()
+                                //successRef.current.open()
                             })
                         }}>
                         <Text>YES,ADD</Text>
@@ -186,6 +194,7 @@ function Crate(props) {
     const { SlideInMenu, Popover } = renderers
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: '#fff', paddingHorizontal: 10 }}>
+
             <View style={{ flexDirection: 'row', alignItems: 'center', alignSelf: 'center', height: vh(50), marginTop: 20 }}>
 
                 <Input
@@ -213,8 +222,6 @@ function Crate(props) {
                 </TouchableHighlight>
             </View>
 
-
-
             <FlatList
                 data={crates}
                 renderItem={renderItem}
@@ -225,13 +232,31 @@ function Crate(props) {
                 data={Initial}
                 closing={() => { }}
                 height={vh(200)}
+                closing={() => {
+                    successRef.current.open()
+                    setTimeout(() => {
+                        successRef.current.close()
+                    }, 2000)
+                }}
             />
             <Sheet
                 ref={imageRef}
                 data={() => BottomItems()}
                 height={vh(300)}
             />
-
+            <SuccessSheet
+                height={300}
+                opening={() => {
+                    Animated.timing(successAnime, {
+                        toValue: 1,
+                        duration: 1000,
+                        useNativeDriver:false
+                    }).start()
+                }}
+                animatedValue={successAnime}
+                title='Crate Has been Added Successfully'
+                ref={successRef}
+            />
         </SafeAreaView>
 
     )

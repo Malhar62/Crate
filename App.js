@@ -15,6 +15,7 @@ import CrateDetailScreen from './Screens/CrateDetails'
 import ContactList from './Screens/ContactList';
 import { NativeBaseProvider } from 'native-base'
 import ViewMedia from './Screens/ViewMedia';
+import Splash from './Screens/Splash';
 
 const Stack = createNativeStackNavigator();
 
@@ -24,6 +25,7 @@ function MainNavigator() {
       <Stack.Navigator
         screenOptions={{ headerShown: false }}
       >
+        <Stack.Screen name='splash' component={Splash}/>
         <Stack.Screen name='crate' component={Crate} />
         <Stack.Screen name='imagescreen' component={ImageScreen} />
         <Stack.Screen name='editor' component={Editor} />
