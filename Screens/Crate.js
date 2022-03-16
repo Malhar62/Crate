@@ -68,6 +68,7 @@ function Crate(props) {
           }
         });
     }
+    console.log('conflict')
     // const getDataBase = async () => {
     //     // const citiesCol = collection(db, 'mvp');
     //     // const citySnapshot = await getDocs(citiesCol);
