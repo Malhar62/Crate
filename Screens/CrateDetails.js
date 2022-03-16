@@ -27,8 +27,12 @@ function CrateDetailScreen(props) {
 
     React.useEffect(() => {
         if (isFocused) {
-            sheetRef.current.close()
-            dotRef.current.close()
+            if (sheetRef.current) {
+                sheetRef.current.close()
+            }
+            if (dotRef.current) {
+                dotRef.current.close()
+            }
             setEditname(crateData.crateName)
             setEditphoto(crateData.photos)
             setEditcontact(crateData.contacts)
@@ -45,7 +49,9 @@ function CrateDetailScreen(props) {
     function OpenContact(callback, errorCallback) {
         Platform.OS == 'ios' ? fetchContactsFromRoot()
             .then(contact => {
-                sheetRef.current.close()
+                if (sheetRef.current) {
+                    sheetRef.current.close()
+                }
                 callback(contact)
             })
             .catch(error => console.log(error)) :
@@ -78,7 +84,9 @@ function CrateDetailScreen(props) {
             })
             temp.forEach(element => {
                 addPhoto(element, () => {
-                    sheetRef.current.close()
+                    if (sheetRef.current) {
+                        sheetRef.current.close()
+                    }
                 })
             });
             navigation.navigate('imagescreen', { tag: 'gallery', id: crateData.crateId })

@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { View, Text, Image, FlatList, Button, SafeAreaView, TouchableOpacity, Animated } from 'react-native';
 import BouncyCheckbox from "react-native-bouncy-checkbox";
 import { connect } from 'react-redux';
-
+import digestFetch from 'react-native-digest-fetch'
 import ActionButton from '../Component/ActionButton';
 import { CrateAction } from '../Redux/Actions/CrateAction';
 import getApiCall from '../services/webservice';
@@ -69,24 +69,39 @@ function Splash({ navigation, getCall }) {
             }).start()
         }, 2000)
         setTimeout(() => {
-            navigation.navigate('crate')
+             navigation.navigate('crate')
+          //  caller()
         }, 4000)
     }, [])
+
+    // async function caller() {
+    //     var data = new FormData();
+    //     //   var path = new Date().getTime();
+    //     data.append('t', `1646317082715`);
+    //     var myHeaders = new Headers();
+    //     myHeaders.append("Authorization", "Digest username=\"visu\", realm=\"IP Control Center@192.168.2.54\", nonce=\"e431b90ee02ebeeb016c5d586140365c\", uri=\"/channel/register?t=1646317082715\", algorithm=MD5, response=\"227e5c0493b68f3e659b3b9803d80ed1\", opaque=\"78f3366cb9e3eff495cc00142174990d\", qop=auth, nc=00000174, cnonce=\"9903257e46a0c540\"");
+    //     digestFetch(`http://asegui.ddns.net:1080/channel/register?t=1646317082715`, {
+    //         method: 'POST',
+    //         headers: myHeaders,
+    //         username: 'visu',z
+    //         password: '1',
+    //     });
+    // }
     return (
-        <Animated.View style={{ flex: 1, justifyContent: 'center', alignItems: 'center',backgroundColor:'pink' }}>
+        <Animated.View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'pink' }}>
             {/* <ActionButton onClick={onClick} />
 
             <FlatList
                 data={list}
                 renderItem={renderItem}
             /> */}
-        
-          <Animated.View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center'}}>
+
+            <Animated.View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
                 <Animated.Image
                     source={{ uri: utube }}
                     resizeMode='contain'
                     style={{
-                        width: 120, height: 100, position: 'absolute', marginLeft: 20,backgroundColor:'pink',
+                        width: 120, height: 100, position: 'absolute', marginLeft: 20, backgroundColor: 'pink',
                         transform: [
                             {
                                 translateX: anime.interpolate({
@@ -115,7 +130,7 @@ function Splash({ navigation, getCall }) {
                         }
                     ]
                 }}>Crate It</Animated.Text>
-              </Animated.View>
+            </Animated.View>
         </Animated.View>
     )
 }

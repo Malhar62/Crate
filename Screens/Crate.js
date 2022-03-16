@@ -9,6 +9,8 @@ import { galleryicon, media, plusicon, usericon } from '../Redux/Constants'
 import Sheet from '../Component/Sheet'
 import { vw, vh } from '../Component/Scale'
 import { useIsFocused } from '@react-navigation/native';
+import FingerprintScanner from 'react-native-fingerprint-scanner';
+
 import {
     Menu,
     MenuOptions,
@@ -19,11 +21,13 @@ import {
 import PopUp from '../Component/PopUp'
 //import { Popover, PopoverController } from 'react-native-modal-popover';
 import { Popover, Button, Box, Center, NativeBaseProvider } from "native-base"
-import VideoPlayer from 'react-native-video-controls';
-import SuccessSheet from '../Component/successSheet'
+import { db } from '../firebase/firebase-config'
+import { collection, getDocs } from 'firebase/firestore/lite';
+import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
+//import storage from '@react-native-firebase/storage';
 
-// in the component's render() function
 
+// first, get a reference to the storage bucket for our app
 const common = {
     width: vw(100), height: vh(50), backgroundColor: 'gold', justifyContent: 'center', alignItems: 'center'
 }
@@ -42,13 +46,42 @@ function Crate(props) {
     const [list, setList] = React.useState([])
     const [open, setOpen] = React.useState(false)
     const isFocused = useIsFocused()
-    const successRef = React.useRef();
-    const successAnime = new Animated.Value(0);
     React.useEffect(() => {
         if (isFocused) {
             emptyName()
+            fingerAuth()
         }
     }, [isFocused])
+    function fingerAuth(){
+        FingerprintScanner.authenticate({ title:'login_via_fingerprint' })
+        .then((data) => {
+          //getRefreshToken();
+          console.log('success',data)
+        })
+        .catch(error => {
+          if (
+            error.name === 'DeviceLocked' ||
+            error.name === 'DeviceLockedPermanent'
+          ) {
+          } else {
+            console.log('Fingerprint Authentication failed');
+          }
+        });
+    }
+    // const getDataBase = async () => {
+    //     // const citiesCol = collection(db, 'mvp');
+    //     // const citySnapshot = await getDocs(citiesCol);
+    //     // const cityList = citySnapshot.docs.map(doc => doc.data());
+
+    //     const q = query(collection(db, "mvp"), where("crateTime", "==", ""));
+
+    //     const querySnapshot = await getDocs(q);
+    //     querySnapshot.forEach((doc) => {
+    //         // doc.data() is never undefined for query doc snapshots
+    //         console.log(doc.id, " => ", doc.data());
+    //     });
+    // }
+   // console.log(getDataBase())
     function Initial() {
         return (
             <View style={{ width: vw(300), alignSelf: 'center', alignItems: 'center', height: vh(150), justifyContent: 'center' }}>
@@ -61,7 +94,6 @@ function Crate(props) {
                                 emptyName()
                                 Keyboard.dismiss()
                                 sheetRef.current.close()
-                                //successRef.current.open()
                             })
                         }}>
                         <Text>YES,ADD</Text>
@@ -156,11 +188,11 @@ function Crate(props) {
                             <View style={{ alignItems: 'center', justifyContent: 'center' }}>
                                 <TouchableOpacity onPress={() => {
                                     imageRef.current.close()
-                                    // navigation.navigate('viewmedia', {
-                                    //     kind: item.kind,
-                                    //     crateId: item.crateId,
-                                    //     itemId: item.itemId
-                                    // })
+                                    navigation.navigate('viewmedia', {
+                                        kind: item.kind,
+                                        crateId: item.crateId,
+                                        itemId: item.itemId
+                                    })
                                     console.log(item.number)
                                 }
                                 }>
@@ -191,10 +223,43 @@ function Crate(props) {
             </View>
         )
     }
-    const { SlideInMenu, Popover } = renderers
+    //const { SlideInMenu, Popover } = renderers
+   // const storage = getStorage();
+
+
+    // finally, upload the file to the reference
+    async function Send() {
+        let url = "file:///data/user/0/com.saga/cache/react-native-image-crop-picker/IMG-20211211-WA0000.jpg"
+        let blob = await fetch(url).then((r) => r.blob());
+        console.log(blob)
+        const usersCollection = ref(storage, 'IMG-20211211-WA0000.jpg');
+        const metadata = {
+            contentType: 'image/jpeg',
+        };
+        uploadBytes(usersCollection, url, metadata).then((snapshot) => {
+            console.log('Uploaded a blob or file!');
+            getDownloadURL(ref(storage, 'IMG-20211211-WA0000.jpg'))
+                .then((url) => {
+                    // `url` is the download URL for 'images/stars.jpg'
+
+                    // This can be downloaded directly:
+                    const xhr = new XMLHttpRequest();
+                    xhr.responseType = 'blob';
+                    xhr.onload = (event) => {
+                        const blob = xhr.response;
+                    };
+                    xhr.open('GET', url);
+                    xhr.send();
+                    console.log(url)
+                })
+                .catch((error) => {
+                    console.log(error)
+                });
+        });
+    }
+
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: '#fff', paddingHorizontal: 10 }}>
-
             <View style={{ flexDirection: 'row', alignItems: 'center', alignSelf: 'center', height: vh(50), marginTop: 20 }}>
 
                 <Input
@@ -206,12 +271,13 @@ function Crate(props) {
                 />
                 <TouchableHighlight
                     onPress={() => {
-                        if (crateName != '') {
-                            Keyboard.dismiss()
-                            sheetRef.current.open()
-                        } else {
-                            Alert.alert('Enter valid name!')
-                        }
+                        // if (crateName != '') {
+                        //     Keyboard.dismiss()
+                        //     sheetRef.current.open()
+                        // } else {
+                        //     Alert.alert('Enter valid name!')
+                        // }
+                        Send()
                     }}
                 >
                     <Image
@@ -221,6 +287,8 @@ function Crate(props) {
                     />
                 </TouchableHighlight>
             </View>
+
+
 
             <FlatList
                 data={crates}
@@ -232,30 +300,11 @@ function Crate(props) {
                 data={Initial}
                 closing={() => { }}
                 height={vh(200)}
-                closing={() => {
-                    successRef.current.open()
-                    setTimeout(() => {
-                        successRef.current.close()
-                    }, 2000)
-                }}
             />
             <Sheet
                 ref={imageRef}
                 data={() => BottomItems()}
                 height={vh(300)}
-            />
-            <SuccessSheet
-                height={300}
-                opening={() => {
-                    Animated.timing(successAnime, {
-                        toValue: 1,
-                        duration: 1000,
-                        useNativeDriver:false
-                    }).start()
-                }}
-                animatedValue={successAnime}
-                title='Crate Has been Added Successfully'
-                ref={successRef}
             />
         </SafeAreaView>
 

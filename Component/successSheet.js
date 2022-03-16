@@ -35,7 +35,7 @@ const SuccessSheet = React.forwardRef((props, ref) => {
             <Animated.Image
                 source={require('../Images/success.png')}
                 style={{
-                    width: vw(100), height: vh(100),
+                    width: vw(100), height: vh(120),
                     transform: [
                         {
                             rotate: animatedValue.interpolate({
